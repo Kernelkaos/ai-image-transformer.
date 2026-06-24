@@ -1,0 +1,21 @@
+# Stable Diffusion XL (SDXL) and ControlNet Canny Production Inference Configurations
+model_settings:
+  sdxl_base_model: "stabilityai/stable-diffusion-xl-base-1.0"
+  controlnet_canny_model: "diffusers/controlnet-canny-sdxl-1.0"
+  vae_model: "madebyollin/sdxl-vae-fp16-fix" # Fix for FP16 precision issues in base SDXL VAE
+  precision: "fp16" # For VRAM optimization (uses torch.float16)
+
+inference_constraints:
+  default_width: 1024
+  default_height: 1024
+  min_dimension: 512
+  max_dimension: 2048
+  default_guidance_scale: 7.5
+  default_steps: 30
+  controlnet_conditioning_scale: 0.5 # Default Canny edge influence weight
+
+performance:
+  enable_attention_slicing: true
+  enable_vae_tiling: true
+  enable_cpu_offload: false # Sequential CPU offload (enable for ultra-low VRAM < 8GB)
+  enable_xformers: true # Recommended for faster inference and lower VRAM usage
